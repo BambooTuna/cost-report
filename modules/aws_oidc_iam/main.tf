@@ -4,7 +4,7 @@ variable "aud" {
 }
 
 resource "aws_iam_role" "this" {
-  name = "${var.prefix}-access_policy"
+  name = "${var.prefix}-iam_role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -25,7 +25,7 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_policy" "this" {
-  name        = "${var.prefix}-access_policy"
+  name        = "${var.prefix}-iam_policy"
   path        = "/"
   description = "IAM policy for access Cost Explorer"
   policy      = <<EOF
