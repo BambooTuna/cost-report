@@ -1,4 +1,7 @@
 variable "prefix" {}
+variable "aud" {
+  type = string
+}
 
 resource "aws_iam_role" "this" {
   name = "${var.prefix}-access_policy"
@@ -13,7 +16,7 @@ resource "aws_iam_role" "this" {
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "accounts.google.com:aud" = "104516408075707979148"
+            "accounts.google.com:aud" = var.aud
           }
         }
       }
@@ -45,4 +48,8 @@ EOF
 resource "aws_iam_role_policy_attachment" "this" {
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.this.arn
+}
+
+output "role_arn" {
+  value = aws_iam_role.this.arn
 }
